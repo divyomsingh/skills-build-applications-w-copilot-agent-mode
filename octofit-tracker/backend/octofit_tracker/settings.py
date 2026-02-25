@@ -26,8 +26,13 @@ SECRET_KEY = 'django-insecure-^_x=bjl2@uir4_i*hyc98t!r=w4rtz4t3%13t4lkly2w@98m&=
 DEBUG = True
 
 
-# Allow all hosts
-ALLOWED_HOSTS = ['*']
+
+# Allow localhost and codespace URL using $CODESPACE_NAME
+import os
+CODESPACE_NAME = os.environ.get('CODESPACE_NAME')
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+if CODESPACE_NAME:
+    ALLOWED_HOSTS.append(f'{CODESPACE_NAME}-8000.app.github.dev')
 
 
 # Application definition
@@ -89,10 +94,7 @@ DATABASES = {
         'CLIENT': {
             'host': 'localhost',
             'port': 27017,
-            'username': '',
-            'password': '',
-            'authSource': 'admin',
-            'authMechanism': 'SCRAM-SHA-1',
+            # No authentication for local MongoDB
         },
     }
 }
